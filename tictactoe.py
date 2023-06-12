@@ -2,8 +2,6 @@
 Tic Tac Toe Player
 """
 
-import math
-
 from typing import List
 
 X = "X"
@@ -24,7 +22,7 @@ def player(board):
     """
     Returns player who has the next turn on a board.
     """
-    XvsO = 0 # Positive for more X and negative for more Y
+    XvsO = 0  # Positive for more X and negative for more Y
     for row in board:
         for item in row:
             if item == X:
@@ -57,17 +55,21 @@ def result(board: list, action):
     Returns the board that results from making move (i, j) on the board.
     """
     curr_player = player(board=board)
+    # Check if the move is valid
     if board[action[0]][action[1]] != EMPTY:
         raise ValueError
+    
+    # Initialize a new board
     new_board = initial_state()
-
+    # Copies the old board to new board
     for i in range(0, 3):
         for j in range(0, 3):
             new_board[i][j] = board[i][j]
-
+    # Add the move to the new board
     new_board[action[0]][action[1]] = curr_player
 
     return new_board
+
 
 def same(a, b, c):
     """
@@ -78,17 +80,18 @@ def same(a, b, c):
     else:
         return False
 
+
 def winner(board):
     """
     Returns the winner of the game, if there is one.
     """
     
-    #Check rows
+    # Check rows
     for row in board:
         if (same(*row)):
             return row[0]
         
-    #Check columns
+    # Check columns
     temp = list()
     for i in range(0, 3):
         for j in range(0, 3):
@@ -106,7 +109,6 @@ def winner(board):
         return board[0][2]
     
     return None
-
 
 
 def terminal(board):
@@ -147,7 +149,7 @@ def minimax(board):
     curr_player = player(board=board)
     player_actions = actions(board)
 
-    opt_idx = -10
+    opt_idx = -10  # Index for the optimal action
     if (curr_player == X):
         val = -1
     else:
@@ -166,7 +168,11 @@ def minimax(board):
 
     return player_actions[opt_idx]
 
+
 def minimax_search(board, purr):
+    """
+    Performs minimax search with alpha beta purring
+    """
     if terminal(board):
         return utility(board)
 
